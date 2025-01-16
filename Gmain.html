@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            background-image: url("gss.jpg");
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .game-container {
+            background: lightgreen;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 30px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1em;
+            margin-bottom: 15px;
+        }
+
+        input[type="number"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1><b>Number Guessing Game</b></h1>
+        <p>I'm thinking of a number between <span id="lower-bound">1</span> and <span id="upper-bound">100</span>. Can you guess it?</p>
+
+        <input type="number" id="guess" placeholder="Enter your guess number" />
+        <button onclick="checkGuess()">Guess</button>
+
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const lowerBound = 1;
+        const upperBound = 100;
+        const secretNumber = Math.floor(Math.random() * (upperBound - lowerBound + 1)) + lowerBound;
+        let attempts = 0;
+
+        function checkGuess() {
+            const guessInput = document.getElementById("guess");
+            const messageDiv = document.getElementById("message");
+            const guess = parseInt(guessInput.value, 10);
+            attempts++;
+
+            if (isNaN(guess) || guess < lowerBound || guess > upperBound) {
+                messageDiv.textContent = `Please enter a number between ${lowerBound} and ${upperBound}.`;
+                return;
+            }
+
+            if (guess < secretNumber) {
+                messageDiv.textContent = "Too low! Try again.";
+            } else if (guess > secretNumber) {
+                messageDiv.textContent = "Too high! Try again.";
+            } else {
+                messageDiv.textContent = `Congratulations! You guessed the number ${secretNumber} in ${attempts} attempts.`;
+                guessInput.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
